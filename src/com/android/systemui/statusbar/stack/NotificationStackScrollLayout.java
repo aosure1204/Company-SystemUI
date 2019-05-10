@@ -1393,9 +1393,11 @@ public class NotificationStackScrollLayout extends ViewGroup
         if (!isScrollingEnabled()) {
             return false;
         }
-        if (isInsideQsContainer(ev) && !mIsBeingDragged) {
+        // Grace delete. Custom status bar expand.
+        /*if (isInsideQsContainer(ev) && !mIsBeingDragged) {
             return false;
-        }
+        }*/
+        // Grace End.
         mForcedScroll = null;
         initVelocityTrackerIfNotExists();
         mVelocityTracker.addMovement(ev);

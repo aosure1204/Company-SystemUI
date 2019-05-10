@@ -428,7 +428,11 @@ public class NotificationPanelView extends PanelView implements
                 requestScrollerTopPaddingUpdate(false /* animate */);
                 requestPanelHeightUpdate();
                 int height = (int) mQsSizeChangeAnimator.getAnimatedValue();
-                mQs.setHeightOverride(height);
+                // Grace Modify. Custom status bar expand.
+                // mQs.setHeightOverride(height);
+                if (mQs != null ) {
+                    mQs.setHeightOverride(height);
+                }
             }
         });
         mQsSizeChangeAnimator.addListener(new AnimatorListenerAdapter() {
@@ -662,7 +666,9 @@ public class NotificationPanelView extends PanelView implements
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (mBlockTouches || mQs.isCustomizing()) {
+        // Grace Modify.Custom status bar expand.
+        // if (mBlockTouches || mQs.isCustomizing()) {
+        if (mBlockTouches || (mQs != null && mQs.isCustomizing())) {
             return false;
         }
         initDownStates(event);
@@ -1120,10 +1126,16 @@ public class NotificationPanelView extends PanelView implements
             animateKeyguardStatusBarOut();
             long delay = mStatusBarState == StatusBarState.SHADE_LOCKED
                     ? 0 : mStatusBar.calculateGoingToFullShadeDelay();
+            // Grace Modify. Custom status bar expand.
+            //mQs.animateHeaderSlidingIn(delay);
+            if (mQs != null)
             mQs.animateHeaderSlidingIn(delay);
         } else if (oldState == StatusBarState.SHADE_LOCKED
                 && statusBarState == StatusBarState.KEYGUARD) {
             animateKeyguardStatusBarIn(StackStateAnimator.ANIMATION_DURATION_STANDARD);
+            // Grace Modify. Custom status bar expand.
+            //mQs.animateHeaderSlidingOut();
+            if (mQs != null)
             mQs.animateHeaderSlidingOut();
         } else {
             mKeyguardStatusBar.setAlpha(1f);
@@ -1478,7 +1490,8 @@ public class NotificationPanelView extends PanelView implements
     /**
      * @return Whether we should intercept a gesture to open Quick Settings.
      */
-    private boolean shouldQuickSettingsIntercept(float x, float y, float yDiff) {
+    // Grace hidden. Custom status bar expanded.
+/*    private boolean shouldQuickSettingsIntercept(float x, float y, float yDiff) {
         if (!mQsExpansionEnabled || mCollapsedOnDown) {
             return false;
         }
@@ -1491,6 +1504,17 @@ public class NotificationPanelView extends PanelView implements
         } else {
             return onHeader;
         }
+    }*/
+
+    // Grace add. Custom status bar expanded.
+    private boolean shouldQuickSettingsIntercept(float x, float y, float yDiff) {
+        if (!mQsExpansionEnabled || mCollapsedOnDown) {
+            return false;
+        }
+        final boolean onHeader = x >= mQsFrame.getX()
+                && x <= mQsFrame.getX() + mQsFrame.getWidth()
+                && y >= 0 && y <= 60;   //60是状态栏的高度，先写上，后期动态获取。
+        return onHeader;
     }
 
     @Override
@@ -2386,8 +2410,9 @@ public class NotificationPanelView extends PanelView implements
     }
 
     protected void setVerticalPanelTranslation(float translation) {
-        mNotificationStackScroller.setTranslationX(translation);
-        mQsFrame.setTranslationX(translation);
+        // Grace delete. Custom status bar expand.
+        /*mNotificationStackScroller.setTranslationX(translation);
+        mQsFrame.setTranslationX(translation);*/
     }
 
     protected void updateExpandedHeight(float expandedHeight) {

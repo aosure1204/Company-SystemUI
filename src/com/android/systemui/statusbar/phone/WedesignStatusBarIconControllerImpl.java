@@ -10,7 +10,10 @@ import com.android.systemui.R;
 public class WedesignStatusBarIconControllerImpl implements WedesignStatusBarIconController{
     private final ArrayMap<Integer, ImageView> mImageViews = new ArrayMap<>();
 
-    public WedesignStatusBarIconControllerImpl(Context context) {
+    private Context mContext;
+
+    public WedesignStatusBarIconControllerImpl(Context context){
+        mContext = context;
     }
 
     @Override

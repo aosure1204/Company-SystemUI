@@ -37,15 +37,16 @@
         android:clipToPadding="false"
         android:clipChildren="false">
 
-        <FrameLayout
-            android:id="@+id/qs_frame"
-            android:layout="@layout/qs_panel"
-            android:layout_width="@dimen/qs_panel_width"
-            android:layout_height="match_parent"
-            android:layout_gravity="@integer/notification_panel_layout_gravity"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            systemui:viewType="com.android.systemui.plugins.qs.QS" />
+        <!-- Grace delete. Custom status bar expand. -->
+        <!--<FrameLayout
+        android:id="@+id/qs_frame"
+        android:layout="@layout/qs_panel"
+        android:layout_width="@dimen/qs_panel_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="@integer/notification_panel_layout_gravity"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        systemui:viewType="com.android.systemui.plugins.qs.QS"/>
 
         <com.android.systemui.statusbar.stack.NotificationStackScrollLayout
             android:id="@+id/notification_stack_scroller"
@@ -53,7 +54,17 @@
             android:layout_width="@dimen/notification_panel_width"
             android:layout_height="match_parent"
             android:layout_gravity="@integer/notification_panel_layout_gravity"
-            android:layout_marginBottom="@dimen/close_handle_underlap" />
+            android:layout_marginBottom="@dimen/close_handle_underlap" />-->
+
+        <!-- Grace add. Custom status bar expand. -->
+        <include
+            layout="@layout/wedesign_notification_panel" />
+
+        <FrameLayout
+            android:id="@+id/qs_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!-- Grace end. -->
 
         <include layout="@layout/ambient_indication"
             android:id="@+id/ambient_indication_container" />

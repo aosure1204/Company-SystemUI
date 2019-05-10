@@ -193,6 +193,7 @@ import com.android.systemui.plugins.statusbar.NotificationSwipeActionHelper.Snoo
 import com.android.systemui.qs.QSFragment;
 import com.android.systemui.qs.QSPanel;
 import com.android.systemui.qs.QSTileHost;
+import com.android.systemui.qs.WedesignQSFragment;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.recents.events.EventBus;
@@ -866,10 +867,12 @@ public class StatusBar extends SystemUI implements DemoMode,
         mContext.getContentResolver().registerContentObserver(
                 Settings.Global.getUriFor(Settings.Global.ZEN_MODE), false,
                 mSettingsObserver);
-        mContext.getContentResolver().registerContentObserver(
+        // Grace hidden. Custom status bar expand.
+        /*mContext.getContentResolver().registerContentObserver(
                 Settings.Secure.getUriFor(Settings.Secure.LOCK_SCREEN_SHOW_NOTIFICATIONS), false,
                 mLockscreenSettingsObserver,
-                UserHandle.USER_ALL);
+                UserHandle.USER_ALL);*/
+        // Grace end.
         if (ENABLE_LOCK_SCREEN_ALLOW_REMOTE_INPUT) {
             mContext.getContentResolver().registerContentObserver(
                     Settings.Secure.getUriFor(Settings.Secure.LOCK_SCREEN_ALLOW_REMOTE_INPUT),
@@ -878,11 +881,13 @@ public class StatusBar extends SystemUI implements DemoMode,
                     UserHandle.USER_ALL);
         }
 
-        mContext.getContentResolver().registerContentObserver(
+        // Grace hidden. Custom status bar expand.
+        /*mContext.getContentResolver().registerContentObserver(
                 Settings.Secure.getUriFor(Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS),
                 true,
                 mLockscreenSettingsObserver,
-                UserHandle.USER_ALL);
+                UserHandle.USER_ALL);*/
+        // Grace end.
 
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
@@ -1208,7 +1213,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
 
         // Set up the quick settings tile panel
-        View container = mStatusBarWindow.findViewById(R.id.qs_frame);
+        // Grace hidden. Custom status bar expanded.
+        /*View container = mStatusBarWindow.findViewById(R.id.qs_frame);
         if (container != null) {
             FragmentHostManager fragmentHostManager = FragmentHostManager.get(container);
             ExtensionFragmentListener.attachExtensonToFragment(container, QS.TAG, R.id.qs_frame,
@@ -1229,7 +1235,34 @@ public class StatusBar extends SystemUI implements DemoMode,
                     mKeyguardStatusBar.setQSPanel(mQSPanel);
                 }
             });
+        }*/
+
+        // Grace add. Custom status bar expand.
+        mQSContainer = mStatusBarWindow.findViewById(R.id.qs_frame);
+        if (mQSContainer != null) {
+            FragmentHostManager fragmentHostManager = FragmentHostManager.get(mQSContainer);
+            WedesignQSFragment fragment = new WedesignQSFragment();
+            fragmentHostManager.getFragmentManager().beginTransaction()
+                    .replace(R.id.qs_frame, fragment, "QuickSet")
+                    .commit();
+//            final QSTileHost qsh = SystemUIFactory.getInstance().createQSTileHost(mContext, this,
+//                    mIconController);
+//            mBrightnessMirrorController = new BrightnessMirrorController(mStatusBarWindow,
+//                    mScrimController);
+            fragmentHostManager.addTagListener("QuickSet", (tag, f) -> {
+                    ((WedesignQSFragment) f).setNotifQsSwitchListener(mNotifQsSwitchListener);
+//                    ((WedesignQSFragment) f).setHost(qsh);
+//                    mQSPanel = ((WedesignQSFragment) f).getQsPanel();
+//                    mQSPanel.setBrightnessMirror(mBrightnessMirrorController);
+//                    mKeyguardStatusBar.setQSPanel(mQSPanel);
+            });
         }
+
+        mNotificationContainer = mStatusBarWindow.findViewById(R.id.notification_container);
+        if (mNotificationContainer != null) {
+                ((WedesignNotificationContainer) mNotificationContainer).setNotifQsSwitchListener(mNotifQsSwitchListener);
+        }
+        // Grace end.
 
         mReportRejectedTouch = mStatusBarWindow.findViewById(R.id.report_rejected_touch);
         if (mReportRejectedTouch != null) {
@@ -6638,9 +6671,12 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
 
         if (mUsersAllowingNotifications.indexOfKey(userHandle) < 0) {
-            final boolean allowed = 0 != Settings.Secure.getIntForUser(
+            // Grace modify. Custom status bar expand.
+/*            final boolean allowed = 0 != Settings.Secure.getIntForUser(
                     mContext.getContentResolver(),
-                    Settings.Secure.LOCK_SCREEN_SHOW_NOTIFICATIONS, 0, userHandle);
+                    Settings.Secure.LOCK_SCREEN_SHOW_NOTIFICATIONS, 0, userHandle);*/
+            final boolean allowed = false;
+            // Grace end.
             mUsersAllowingNotifications.append(userHandle, allowed);
             return allowed;
         }
@@ -6658,9 +6694,12 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
 
         if (mUsersAllowingPrivateNotifications.indexOfKey(userHandle) < 0) {
-            final boolean allowedByUser = 0 != Settings.Secure.getIntForUser(
+            // Grace modify. Custom status bar expand.
+            /*final boolean allowedByUser = 0 != Settings.Secure.getIntForUser(
                     mContext.getContentResolver(),
-                    Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS, 0, userHandle);
+                    Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS, 0, userHandle);*/
+            final boolean allowedByUser = false;
+            // Grace end.
             final boolean allowedByDpm = adminAllowsUnredactedNotifications(userHandle);
             final boolean allowed = allowedByUser && allowedByDpm;
             mUsersAllowingPrivateNotifications.append(userHandle, allowed);
@@ -7298,10 +7337,13 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     private void updateLockscreenNotificationSetting() {
-        final boolean show = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+        // Grace modify. Custom status bar expand.
+        /*final boolean show = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.LOCK_SCREEN_SHOW_NOTIFICATIONS,
                 1,
-                mCurrentUserId) != 0;
+                mCurrentUserId) != 0;*/
+        final boolean show = false;
+        // Grace end.
         final int dpmFlags = mDevicePolicyManager.getKeyguardDisabledFeatures(
                 null /* admin */, mCurrentUserId);
         final boolean allowedByDpm = (dpmFlags
@@ -7554,4 +7596,31 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         mContext.getSystemService(WindowManager.class).addView(floatBallView, lp);
     }
+
+    // Grace add. Custom status bar expand.
+    View mQSContainer;
+    View mNotificationContainer;
+
+    private WedesignNotifQsSwitchListener mNotifQsSwitchListener = new WedesignNotifQsSwitchListener() {
+
+        @Override
+        public void switchToNotification() {
+            if(mNotificationContainer != null) {
+                mNotificationContainer.setVisibility(View.VISIBLE);
+            }
+            if(mQSContainer != null) {
+                mQSContainer.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void switchToQs() {
+            if(mNotificationContainer != null) {
+                mNotificationContainer.setVisibility(View.GONE);
+            }
+            if(mQSContainer != null) {
+                mQSContainer.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 }

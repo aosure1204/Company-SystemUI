@@ -177,10 +177,10 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
                 startApp(v.getContext(), "com.txznet.adapter");
                 break;
             case R.id.btn_nav_power:
-                simulateKeyEvent(KeyEvent.KEYCODE_POWER);
-                /*if(!isScreenOff) {
+//                simulateKeyEvent(KeyEvent.KEYCODE_POWER);
+                if(!isScreenOff) {
                     RemoteTools.screenOff();
-                }*/
+                }
                 break;
         }
     }

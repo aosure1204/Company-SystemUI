@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.systemui.statusbar.phone.WedesignNotificationContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notification_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_quanju">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="58dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_btn_notification">
+        <Button
+            android:id="@+id/btn_switch_notification"
+            android:layout_width="164dp"
+            android:layout_height="102dp"
+            android:textSize="36sp"
+            android:textColor="#B0D7FF"
+            android:text="@string/notification_title"
+            android:background="@android:color/transparent"/>
+        <Button
+            android:id="@+id/btn_switch_qs"
+            android:layout_width="164dp"
+            android:layout_height="102dp"
+            android:textSize="36sp"
+            android:textColor="#FFFFFF"
+            android:text="@string/quick_set_title"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp">
+        <TextView
+            android:id="@+id/text_curr_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17:30"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"/>
+        <TextView
+            android:id="@+id/text_curr_date_gregorian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018年10月13日  周六"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"/>
+        <TextView
+            android:id="@+id/text_curr_date_lunar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="戊戌年十月十一"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <com.android.systemui.statusbar.stack.NotificationStackScrollLayout
+        android:id="@+id/notification_stack_scroller"
+        android:layout_marginTop="50dp"
+        android:layout_width="1190dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp" />
+
+</com.android.systemui.statusbar.phone.WedesignNotificationContainer>
