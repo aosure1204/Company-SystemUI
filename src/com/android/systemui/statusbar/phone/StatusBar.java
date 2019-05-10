@@ -90,6 +90,7 @@ import android.media.session.PlaybackState;
 import android.metrics.LogMaker;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -119,6 +120,7 @@ import android.util.Slog;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.IWindowManager;
 import android.view.KeyEvent;
@@ -783,6 +785,11 @@ public class StatusBar extends SystemUI implements DemoMode,
     private NavigationBarFragment mNavigationBar;
     private View mNavigationBarView;
 
+    // grace add
+    private WedesignNavigationBarFragment mWedesignNavigationBar;
+    private View mWedesignNavigationBarView;
+    // grace end
+
     @Override
     public void start() {
         mNetworkController = Dependency.get(NetworkController.class);
@@ -1067,11 +1074,16 @@ public class StatusBar extends SystemUI implements DemoMode,
             boolean showNav = mWindowManagerService.hasNavigationBar();
             if (DEBUG) Log.v(TAG, "hasNavigationBar=" + showNav);
             if (showNav) {
-                createNavigationBar();
+                // grace modify
+                //createNavigationBar();
+                createWedesignNavigationBar();
             }
         } catch (RemoteException ex) {
             // no window manager? good luck with that
         }
+
+        // grace add
+        createWedesignFloatBall();
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
@@ -1265,6 +1277,18 @@ public class StatusBar extends SystemUI implements DemoMode,
             mNavigationBar.setCurrentSysuiVisibility(mSystemUiVisibility);
         });
     }
+
+    // grace add.
+    protected void createWedesignNavigationBar() {
+        mWedesignNavigationBarView = WedesignNavigationBarFragment.create(mContext, (tag, fragment) -> {
+            mWedesignNavigationBar = (WedesignNavigationBarFragment) fragment;
+            /*if (mLightBarController != null) {
+                mWedesignNavigationBar.setLightBarController(mLightBarController);
+            }
+            mWedesignNavigationBar.setCurrentSysuiVisibility(mSystemUiVisibility);*/
+        });
+    }
+    // grace end.
 
     /**
      * Returns the {@link android.view.View.OnTouchListener} that will be invoked when the
@@ -4125,6 +4149,12 @@ public class StatusBar extends SystemUI implements DemoMode,
             mWindowManager.removeViewImmediate(mNavigationBarView);
             mNavigationBarView = null;
         }
+        // grace add
+        if (mWedesignNavigationBarView != null) {
+            mWindowManager.removeViewImmediate(mWedesignNavigationBarView);
+            mWedesignNavigationBarView = null;
+        }
+        // grace end
         mContext.unregisterReceiver(mBroadcastReceiver);
         mContext.unregisterReceiver(mDemoReceiver);
         mAssistManager.destroy();
@@ -7466,4 +7496,30 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
     // End Extra BaseStatusBarMethods.
+
+    // grace add
+    private void createWedesignFloatBall(){
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT,
+                0,0,
+                WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    |WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                PixelFormat.TRANSLUCENT);
+        lp.token = new Binder();
+        lp.gravity = Gravity.BOTTOM;
+        // this will allow the navbar to run in an overlay on devices that support this
+        if (ActivityManager.isHighEndGfx()) {
+            lp.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+        }
+        lp.setTitle("FloatBall");
+        lp.windowAnimations = 0;
+
+        View floatBallView = LayoutInflater.from(mContext).inflate(
+                R.layout.wedesign_float_ball_window, null);
+
+        if (DEBUG) Log.v(TAG, "addFloatBall: about to add " + floatBallView);
+
+        mContext.getSystemService(WindowManager.class).addView(floatBallView, lp);
+    }
 }

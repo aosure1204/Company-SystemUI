@@ -2049,4 +2049,13 @@
     <!-- Prompt to turn off data usage [CHAR LIMIT=NONE] -->
     <string name="data_usage_disable_mobile" msgid="8656552431969276305">Turn off mobile data?</string>
 
+
+    <!-- grace add -->
+    <string name="air_conditioner_turn_off">Air is off.</string>
+    <string name="air_conditioner_turn_on">Air is on.</string>
+    <string name="air_auto_turn_off">Air auto mode is off.</string>
+    <string name="air_auto_turn_on">Air auto mode is on.</string>
+    <string name="air_is_out_of_range">Air value is out of range.</string>
+    <string name="temperature_is_out_of_range">Temperature is out of range.</string>
+    <string name="app_is_not_installed">该应用未安装</string>
 </resources>

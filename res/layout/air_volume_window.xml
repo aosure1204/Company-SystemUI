@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="19dp"
+    android:paddingBottom="17dp"
+    android:background="@drawable/bg_nav_air_window_left">
+    <TextView
+        android:id="@+id/text_air_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="4dp"
+        android:text="6"
+        android:textSize="26sp"
+        android:textColor="#B0D7FF"
+        android:layout_gravity="center_horizontal" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="31dp"
+        android:src="@drawable/ic_air_small" />
+    <SeekBar
+        android:id="@+id/bar_air_volume"
+        android:layout_width="400dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="74dp"
+        android:layout_marginTop="42dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:progressDrawable="@drawable/bg_seekbar"
+        android:thumb="@drawable/ic_seekbar_thumb"
+        android:max="8"
+        android:progress="4" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="482dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_air_big" />
+</RelativeLayout>

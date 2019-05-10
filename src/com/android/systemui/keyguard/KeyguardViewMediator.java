@@ -118,8 +118,8 @@ import java.util.ArrayList;
  * - keyboard is slid open -> if the keyguard is not secure, hide it
  *
  * Events from the keyguard view:
- * - user succesfully unlocked keyguard -> hide keyguard view, and no longer
- *   restrict input events.
+ *  * - user succesfully unlocked keyguard -> hide keyguard view, and no longer
+ *  *   restrict input events.
  *
  * Note: in addition to normal power managment events that effect the state of
  * whether the keyguard should be showing, external apps and services may request
@@ -1484,7 +1484,8 @@ public class KeyguardViewMediator extends SystemUI {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SHOW:
-                    handleShow((Bundle) msg.obj);
+                    // hidden by Grace. Do not show keyguard.
+                    // handleShow((Bundle) msg.obj);
                     break;
                 case HIDE:
                     handleHide();

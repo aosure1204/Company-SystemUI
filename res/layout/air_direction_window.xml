@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="619dp"
+    android:layout_height="147dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="19dp"
+    android:paddingBottom="36dp"
+    android:background="@drawable/bg_nav_air_window_left"
+    android:gravity="center_vertical" >
+
+    <ImageButton
+        android:id="@+id/btn_air_dir_face"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_dir_face"/>
+
+    <ImageButton
+        android:id="@+id/btn_air_dir_foot"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_dir_foot"/>
+
+    <ImageButton
+        android:id="@+id/btn_air_dir_face_foot"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_dir_face_foot"/>
+
+    <ImageButton
+        android:id="@+id/btn_air_dir_foot_defrost"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_dir_foot_defrost"/>
+
+    <ImageButton
+        android:id="@+id/btn_air_dir_defrost"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_dir_defrost"/>
+
+</LinearLayout>

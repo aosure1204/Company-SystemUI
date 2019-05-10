@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_navigation_bar">
+    <ImageButton
+        android:id="@+id/btn_nav_air_switch"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_switch" />
+    <ImageButton
+        android:id="@+id/btn_nav_air_volume"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_volume" />
+    <ImageButton
+        android:id="@+id/btn_nav_air_direction"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_dir_face" />
+    <ImageButton
+        android:id="@+id/btn_nav_air_auto"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_air_auto" />
+    <Button
+        android:id="@+id/btn_nav_air_temperature"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:textSize="40sp"
+        android:textColor="#73A9E1"
+        android:gravity="center"
+        android:background="@android:color/transparent"
+        android:text="27°C"/>
+    <ImageButton
+        android:id="@+id/btn_nav_home"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_home" />
+    <ImageButton
+        android:id="@+id/btn_nav_vehicle_control"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_vehicle_control" />
+    <ImageButton
+        android:id="@+id/btn_nav_navigation"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_navigation" />
+    <ImageButton
+        android:id="@+id/btn_nav_music"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_music" />
+    <ImageButton
+        android:id="@+id/btn_nav_voice"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_voice" />
+    <ImageButton
+        android:id="@+id/btn_nav_power"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_nav_power" />
+</LinearLayout>

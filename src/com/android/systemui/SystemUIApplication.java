@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Process;
 import android.os.SystemProperties;
 import android.os.UserHandle;
@@ -55,6 +56,10 @@ import com.android.systemui.usb.StorageNotification;
 import com.android.systemui.util.NotificationChannels;
 import com.android.systemui.util.leak.GarbageMonitor;
 import com.android.systemui.volume.VolumeUI;
+
+import com.wd.ms.tools.MSTools;
+import com.wd.airdemo.MyServer;
+import com.wd.airdemo.module.AirModule;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -153,6 +158,18 @@ public class SystemUIApplication extends Application implements SysUiServiceProv
             // start those components now for the current non-system user.
             startServicesIfNeeded(SERVICES_PER_USER);
         }
+
+        // Grace add. for Air conditioning communication.
+        MSTools.getInstance().init(this, new MSTools.IConnectListener() {
+            @Override
+            public void onSuccess() {
+                AirModule.Init();
+            }
+
+            @Override
+            public void onFailed() {
+            }
+        });
     }
 
     /**
