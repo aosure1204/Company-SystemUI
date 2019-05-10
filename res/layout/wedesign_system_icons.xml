@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wedesign_system_icons"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+    <ImageView
+        android:id="@+id/img_status_usb_conn"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_usb_disconn"/>
+    <ImageView
+        android:id="@+id/img_status_4g"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_4g_0" />
+    <ImageView
+        android:id="@+id/img_status_mobile_conn"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_mobile_conn_off" />
+    <ImageView
+        android:id="@+id/img_status_bluetooth"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_bluetooth_off" />
+    <ImageView
+        android:id="@+id/img_status_wifi"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_wifi1"
+        android:visibility="gone" />
+    <ImageView
+        android:id="@+id/img_status_hotspot"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_hotspot"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/img_status_volume"
+        android:layout_width="@dimen/wedesign_status_bar_img_size"
+        android:layout_height="@dimen/wedesign_status_bar_img_size"
+        android:layout_marginLeft="@dimen/wedesign_status_bar_img_marginLeft"
+        android:src="@drawable/ic_status_volume_on"/>
+</LinearLayout>

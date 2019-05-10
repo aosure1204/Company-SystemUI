@@ -88,9 +88,15 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         }
         mDarkIconManager = new DarkIconManager(view.findViewById(R.id.statusIcons));
         Dependency.get(StatusBarIconController.class).addIconGroup(mDarkIconManager);
+        // Grace Add.
+        Dependency.get(WedesignStatusBarIconController.class).addIconGroup(view.findViewById(R.id.wedesign_system_icons));
+        // Grace End.
         mSystemIconArea = mStatusBar.findViewById(R.id.system_icon_area);
         mSignalClusterView = mStatusBar.findViewById(R.id.signal_cluster);
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
+        // Grace Add.
+        mSignalClusterView.setWedesiginIconCallback(Dependency.get(WedesignStatusBarIconController.class));
+        // Grace End.
         // Default to showing until we know otherwise.
         showSystemIconArea(false);
         initEmergencyCryptkeeperText();

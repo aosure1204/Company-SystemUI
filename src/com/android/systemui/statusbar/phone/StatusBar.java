@@ -250,6 +250,7 @@ import com.android.systemui.statusbar.stack.NotificationStackScrollLayout;
 import com.android.systemui.statusbar.stack.NotificationStackScrollLayout
         .OnChildLocationsChangedListener;
 import com.android.systemui.statusbar.stack.StackStateAnimator;
+import com.android.systemui.usb.StorageNotification;
 import com.android.systemui.util.NotificationChannels;
 import com.android.systemui.util.leak.LeakDetector;
 import com.android.systemui.volume.VolumeComponent;
@@ -438,6 +439,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     Object mQueueLock = new Object();
 
     protected StatusBarIconController mIconController;
+    protected WedesignStatusBarIconController mWedesignIconController;  // Grace Add.
 
     // expanded notifications
     protected NotificationPanelView mNotificationPanel; // the sliding/resizing panel within the notification window
@@ -970,7 +972,14 @@ public class StatusBar extends SystemUI implements DemoMode,
         // in session state
 
         // Lastly, call to the icon policy to install/update all the icons.
-        mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController);
+        // Grace Modify
+        // mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController);
+        mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController, mWedesignIconController);
+        // Grace End
+
+        // Grace Add. Monitor USB connection
+        StorageNotification.setWedesiginIconCallback(mWedesignIconController);
+
         mSettingsObserver.onChange(false); // set up
 
         mHeadsUpObserver.onChange(true); // set up
@@ -1052,6 +1061,8 @@ public class StatusBar extends SystemUI implements DemoMode,
                         CollapsedStatusBarFragment.TAG)
                 .commit();
         mIconController = Dependency.get(StatusBarIconController.class);
+        // Grace Add.
+        mWedesignIconController = Dependency.get(WedesignStatusBarIconController.class);
 
         mHeadsUpManager = new HeadsUpManager(context, mStatusBarWindow, mGroupManager);
         mHeadsUpManager.setBar(this);

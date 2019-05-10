@@ -48,6 +48,8 @@ import com.android.systemui.statusbar.phone.ManagedProfileControllerImpl;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
 import com.android.systemui.statusbar.phone.StatusBarIconControllerImpl;
 import com.android.systemui.statusbar.phone.StatusBarWindowManager;
+import com.android.systemui.statusbar.phone.WedesignStatusBarIconController;
+import com.android.systemui.statusbar.phone.WedesignStatusBarIconControllerImpl;
 import com.android.systemui.statusbar.policy.AccessibilityController;
 import com.android.systemui.statusbar.policy.AccessibilityManagerWrapper;
 import com.android.systemui.statusbar.policy.BatteryController;
@@ -256,6 +258,10 @@ public class Dependency extends SystemUI {
 
         mProviders.put(StatusBarIconController.class, () ->
                 new StatusBarIconControllerImpl(mContext));
+
+        // Grace Add.
+        mProviders.put(WedesignStatusBarIconController.class, () ->
+                new WedesignStatusBarIconControllerImpl(mContext));
 
         mProviders.put(ScreenLifecycle.class, () ->
                 new ScreenLifecycle());

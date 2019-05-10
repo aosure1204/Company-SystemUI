@@ -148,4 +148,5 @@
 
     <color name="zen_introduction">#ffffffff</color>
 
+    <color name="wedesign_status_bar_text_color">#ffffffff</color>
 </resources>

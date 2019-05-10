@@ -122,6 +122,7 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
     private final UserInfoController mUserInfoController;
     private final UserManager mUserManager;
     private final StatusBarIconController mIconController;
+    private final WedesignStatusBarIconController mWedesignIconController;  // Grace Add
     private final RotationLockController mRotationLockController;
     private final DataSaverController mDataSaver;
     private final ZenModeController mZenController;
@@ -145,9 +146,13 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
 
     private BluetoothController mBluetooth;
 
-    public PhoneStatusBarPolicy(Context context, StatusBarIconController iconController) {
+    // Grace Modify
+//    public PhoneStatusBarPolicy(Context context, StatusBarIconController iconController) {
+    public PhoneStatusBarPolicy(Context context, StatusBarIconController iconController, WedesignStatusBarIconController wedesignIconController) {
+    // Grace End
         mContext = context;
         mIconController = iconController;
+        mWedesignIconController = wedesignIconController;   // Grace Add
         mCast = Dependency.get(CastController.class);
         mHotspot = Dependency.get(HotspotController.class);
         mBluetooth = Dependency.get(BluetoothController.class);
@@ -222,6 +227,9 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
         mIconController.setIcon(mSlotHotspot, R.drawable.stat_sys_hotspot,
                 mContext.getString(R.string.accessibility_status_bar_hotspot));
         mIconController.setIconVisibility(mSlotHotspot, mHotspot.isHotspotEnabled());
+        // Grace Add
+        mWedesignIconController.setIcon(R.id.img_status_hotspot, R.drawable.ic_status_hotspot);
+        mWedesignIconController.setIconVisibility(R.id.img_status_hotspot, mHotspot.isHotspotEnabled());
 
         // managed profile
         mIconController.setIcon(mSlotManagedProfile, R.drawable.stat_sys_managed_profile_status,
@@ -343,6 +351,7 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
 
         boolean volumeVisible = false;
         int volumeIconId = 0;
+        int wedesignVolumeIconId = R.drawable.ic_status_volume_on;  // Grace Add
         String volumeDescription = null;
         int zen = mZenController.getZen();
 
@@ -365,6 +374,7 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
                 && audioManager.getRingerModeInternal() == AudioManager.RINGER_MODE_SILENT) {
             volumeVisible = true;
             volumeIconId = R.drawable.stat_sys_ringer_silent;
+            wedesignVolumeIconId = R.drawable.ic_status_volume_off;     // Grace Add
             volumeDescription = mContext.getString(R.string.accessibility_ringer_silent);
         } else if (zen != Global.ZEN_MODE_NO_INTERRUPTIONS && zen != Global.ZEN_MODE_ALARMS &&
                 audioManager.getRingerModeInternal() == AudioManager.RINGER_MODE_VIBRATE) {
@@ -389,6 +399,8 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
             mVolumeVisible = volumeVisible;
         }
         updateAlarm();
+        // Grace Add
+        mWedesignIconController.setIcon(R.id.img_status_volume, wedesignVolumeIconId);
     }
 
     @Override
@@ -416,6 +428,13 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
 
         mIconController.setIcon(mSlotBluetooth, iconId, contentDescription);
         mIconController.setIconVisibility(mSlotBluetooth, bluetoothEnabled);
+        // Grace Add
+        if(bluetoothEnabled) {
+            iconId = R.drawable.ic_status_bluetooth_on;
+        } else {
+            iconId = R.drawable.ic_status_bluetooth_off;
+        }
+        mWedesignIconController.setIcon(R.id.img_status_bluetooth, iconId);
     }
 
     private final void updateTTY() {
@@ -660,6 +679,8 @@ public class PhoneStatusBarPolicy implements Callback, Callbacks,
         @Override
         public void onHotspotChanged(boolean enabled) {
             mIconController.setIconVisibility(mSlotHotspot, enabled);
+            // Grace Add
+            mWedesignIconController.setIconVisibility(R.id.img_status_hotspot, enabled);
         }
     };
 

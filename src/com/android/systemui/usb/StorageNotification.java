@@ -45,6 +45,7 @@ import android.util.SparseArray;
 import com.android.internal.R;
 import com.android.internal.messages.nano.SystemMessageProto.SystemMessage;
 import com.android.systemui.SystemUI;
+import com.android.systemui.statusbar.phone.WedesignStatusBarIconController;
 import com.android.systemui.util.NotificationChannels;
 
 import java.util.List;
@@ -54,6 +55,15 @@ public class StorageNotification extends SystemUI {
 
     private static final String ACTION_SNOOZE_VOLUME = "com.android.systemui.action.SNOOZE_VOLUME";
     private static final String ACTION_FINISH_WIZARD = "com.android.systemui.action.FINISH_WIZARD";
+
+    // Grace Add
+    public static WedesignStatusBarIconController mWedesignIconController;
+
+    public static void setWedesiginIconCallback(WedesignStatusBarIconController controller) {
+        Log.d(TAG, "setWedesiginIconCallback method call: " + controller);
+        mWedesignIconController = controller;
+    }
+    // Grace End
 
     // TODO: delay some notifications to avoid bumpy fast operations
 
@@ -293,6 +303,8 @@ public class StorageNotification extends SystemUI {
         switch (vol.getState()) {
             case VolumeInfo.STATE_UNMOUNTED:
                 notif = onVolumeUnmounted(vol);
+                // Grace Add
+                mWedesignIconController.setIcon(com.android.systemui.R.id.img_status_usb_conn, com.android.systemui.R.drawable.ic_status_usb_disconn);
                 break;
             case VolumeInfo.STATE_CHECKING:
                 notif = onVolumeChecking(vol);
@@ -300,6 +312,8 @@ public class StorageNotification extends SystemUI {
             case VolumeInfo.STATE_MOUNTED:
             case VolumeInfo.STATE_MOUNTED_READ_ONLY:
                 notif = onVolumeMounted(vol);
+                // Grace Add
+                mWedesignIconController.setIcon(com.android.systemui.R.id.img_status_usb_conn, com.android.systemui.R.drawable.ic_status_usb_conn);
                 break;
             case VolumeInfo.STATE_FORMATTING:
                 notif = onVolumeFormatting(vol);

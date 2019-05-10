@@ -41,6 +41,7 @@ import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.SignalDrawable;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
+import com.android.systemui.statusbar.phone.WedesignStatusBarIconController;
 import com.android.systemui.statusbar.policy.DarkIconDispatcher;
 import com.android.systemui.statusbar.policy.DarkIconDispatcher.DarkReceiver;
 import com.android.systemui.statusbar.policy.NetworkController;
@@ -483,8 +484,36 @@ public class SignalClusterView extends LinearLayout implements NetworkController
             }
             mWifiGroup.setContentDescription(mWifiDescription);
             mWifiGroup.setVisibility(View.VISIBLE);
+            // Grace Add
+            if(mWedesignIconController != null) {
+                Log.d(TAG, "mWifiStrengthId: " + mWifiStrengthId);
+                int iconId = R.drawable.ic_status_wifi1;
+                boolean iconVisible = false;
+                if(mWifiStrengthId == 1) {
+                    iconId = R.drawable.ic_status_wifi1;
+                    iconVisible = true;
+                } else if(mWifiStrengthId == 2) {
+                    iconId = R.drawable.ic_status_wifi2;
+                    iconVisible = true;
+                } else if(mWifiStrengthId == 3) {
+                    iconId = R.drawable.ic_status_wifi3;
+                    iconVisible = true;
+                } else if(mWifiStrengthId == 4) {
+                    iconId = R.drawable.ic_status_wifi4;
+                    iconVisible = true;
+                }
+                if(iconVisible) {
+                    mWedesignIconController.setIcon(R.id.img_status_wifi, iconId);
+                }
+                mWedesignIconController.setIconVisibility(R.id.img_status_wifi, iconVisible);
+            }
+            // Grace End
         } else {
             mWifiGroup.setVisibility(View.GONE);
+            // Grace Add
+            if(mWedesignIconController != null) {
+                mWedesignIconController.setIconVisibility(R.id.img_status_wifi, false);
+            }
         }
 
         if (DEBUG) Log.d(TAG,
@@ -653,8 +682,41 @@ public class SignalClusterView extends LinearLayout implements NetworkController
                 mMobileGroup.setContentDescription(mMobileTypeDescription
                         + " " + mMobileDescription);
                 mMobileGroup.setVisibility(View.VISIBLE);
+                // Grace Add
+                if(mWedesignIconController != null) {
+                    Log.d(TAG, "mMobileStrengthId: " + mMobileStrengthId);
+                    int iconId = R.drawable.ic_status_4g_0;
+                    if (mMobileStrengthId == 0) {
+                        iconId = R.drawable.ic_status_4g_0;
+                    } else if (mMobileStrengthId == 1) {
+                        iconId = R.drawable.ic_status_4g_1;
+                    } else if (mMobileStrengthId == 2) {
+                        iconId = R.drawable.ic_status_4g_2;
+                    } else if (mMobileStrengthId == 3) {
+                        iconId = R.drawable.ic_status_4g_3;
+                    } else if (mMobileStrengthId == 4) {
+                        iconId = R.drawable.ic_status_4g_4;
+                    }
+                    mWedesignIconController.setIcon(R.id.img_status_4g, iconId);
+                    mWedesignIconController.setIconVisibility(R.id.img_status_4g, true);
+
+                    Log.d(TAG, "mMobileTypeId: " + mMobileTypeId);
+                    if (mMobileTypeId == 0) {
+                        iconId = R.drawable.ic_status_mobile_conn_off;
+                    } else {
+                        iconId = R.drawable.ic_status_mobile_conn_on;
+                    }
+                    mWedesignIconController.setIcon(R.id.img_status_mobile_conn, iconId);
+                    mWedesignIconController.setIconVisibility(R.id.img_status_mobile_conn, true);
+                }
+                // Grace End
             } else {
                 mMobileGroup.setVisibility(View.GONE);
+                // Grace Add
+                if(mWedesignIconController != null) {
+                    mWedesignIconController.setIconVisibility(R.id.img_status_4g, false);
+                    mWedesignIconController.setIconVisibility(R.id.img_status_mobile_conn, false);
+                }
             }
 
             // When this isn't next to wifi, give it some extra padding between the signals.
@@ -697,5 +759,13 @@ public class SignalClusterView extends LinearLayout implements NetworkController
             setTint(mMobileActivityOut,
                     DarkIconDispatcher.getTint(tintArea, mMobileActivityOut, tint));
         }
+    }
+
+    // Grace Add
+    public WedesignStatusBarIconController mWedesignIconController;
+
+    public void setWedesiginIconCallback(WedesignStatusBarIconController controller) {
+        Log.d(TAG, "setWedesiginIconCallback method call: " + controller);
+        mWedesignIconController = controller;
     }
 }

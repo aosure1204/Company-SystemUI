@@ -24,7 +24,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/status_bar_height"
     android:id="@+id/status_bar"
-    android:background="@drawable/system_bar_background"
+    android:background="@drawable/bg_status_bar"
     android:orientation="vertical"
     android:focusable="false"
     android:descendantFocusability="afterDescendants"
@@ -58,14 +58,15 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:visibility="gone"/>
+
         <TextView
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_user_df"
+            android:drawableLeft="@drawable/ic_status_user"
             android:text="DF-320"
-            android:textSize="26sp"
-            android:textColor="#FFFFFF"
+            android:textSize="@dimen/wedesign_status_bar_text_size"
+            android:textColor="@color/wedesign_status_bar_text_color"
             android:gravity="center_vertical" />
 
         <com.android.keyguard.AlphaOptimizedLinearLayout android:id="@+id/system_icon_area"
@@ -75,6 +76,7 @@
             >
 
             <include layout="@layout/system_icons" />
+            <include layout="@layout/wedesign_system_icons" />
 
             <com.android.systemui.statusbar.policy.Clock
                 android:id="@+id/clock"

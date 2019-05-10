@@ -836,4 +836,9 @@
     <!-- How far to inset the rounded edges -->
     <dimen name="stat_sys_mobile_signal_circle_inset">0.9dp</dimen>
 
+    <dimen name="wedesign_status_bar_text_size">26sp</dimen>
+    <dimen name="wedesign_status_bar_img_size">48dp</dimen>
+    <dimen name="wedesign_status_bar_img_marginLeft">8dp</dimen>
+
+
 </resources>
