@@ -269,6 +269,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import com.wd.airdemo.module.RemoteTools;
+
 public class StatusBar extends SystemUI implements DemoMode,
         DragDownHelper.DragDownCallback, ActivityStarter, OnUnlockMethodChangedListener,
         OnHeadsUpChangedListener, VisualStabilityManager.Callback, CommandQueue.Callbacks,
@@ -792,8 +794,27 @@ public class StatusBar extends SystemUI implements DemoMode,
     private View mWedesignNavigationBarView;
     // grace end
 
+    // Grace Add. 亮屏功能 ****************************
+    private boolean isScreenOff;
+
+    private RemoteTools.OnScreenStateChangeListener mOnScreenStateChangeListener = new RemoteTools.OnScreenStateChangeListener() {
+        @Override
+        public void OnScreenStateChange(int screenState){
+            Log.d(TAG, "OnScreenStateChange: screenState = " + screenState);
+            isScreenOff = false;
+            if (screenState == RemoteTools.SCREEN_STATE_OFF) {
+                isScreenOff = true;
+            }
+            mStatusBarWindow.setScreenState(isScreenOff);
+        }
+    };
+    // Grace End. 亮屏功能 ****************************
+
     @Override
     public void start() {
+        // 亮屏功能
+        RemoteTools.setOnScreenStateChangeListener(mOnScreenStateChangeListener);
+
         mNetworkController = Dependency.get(NetworkController.class);
         mUserSwitcherController = Dependency.get(UserSwitcherController.class);
         mKeyguardMonitor = (KeyguardMonitorImpl) Dependency.get(KeyguardMonitor.class);

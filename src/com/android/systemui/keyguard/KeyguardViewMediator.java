@@ -1485,7 +1485,7 @@ public class KeyguardViewMediator extends SystemUI {
             switch (msg.what) {
                 case SHOW:
                     // hidden by Grace. Do not show keyguard.
-                    // handleShow((Bundle) msg.obj);
+                     handleShow((Bundle) msg.obj);
                     break;
                 case HIDE:
                     handleHide();

@@ -57,8 +57,11 @@ import com.android.systemui.util.NotificationChannels;
 import com.android.systemui.util.leak.GarbageMonitor;
 import com.android.systemui.volume.VolumeUI;
 
+import com.wd.ms.ITaskBinder;
 import com.wd.ms.tools.MSTools;
 import com.wd.airdemo.module.AirModule;
+import com.wd.airdemo.module.FinalRemoteModule;
+import com.wd.airdemo.module.RemoteTools;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -163,6 +166,10 @@ public class SystemUIApplication extends Application implements SysUiServiceProv
             @Override
             public void onSuccess() {
                 AirModule.Init();
+                // 熄屏、亮屏功能
+                ITaskBinder module = MSTools.getInstance().getModule(FinalRemoteModule.MODULE_MAIN);
+                RemoteTools.setMainTaskBinder(module);
+                RemoteTools.registerScreenStateListener();
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.android.systemui.statusbar.phone;
 
+import java.io.IOException;
 import java.lang.Override;
 import java.util.List;
 import java.util.ArrayList;
@@ -50,15 +51,40 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
 
     private WindowManager mWindowManager;
 
+    private WedesignNavigationBarView mWedesignNavigationBarView;
     private ImageButton mBtnNavAirDirection;
     private Button mBtnNavAirTemperature;
 
     private List<View> mAirWindowViews = new ArrayList<View>();
 
+    //********************* 亮屏功能 ****************************
+    private boolean isScreenOff;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        RemoteTools.setOnScreenStateChangeListener(mOnScreenStateChangeListener);
+    }
+
+    private RemoteTools.OnScreenStateChangeListener mOnScreenStateChangeListener = new RemoteTools.OnScreenStateChangeListener() {
+        @Override
+        public void OnScreenStateChange(int screenState){
+            Log.d(TAG, "OnScreenStateChange: screenState = " + screenState);
+            isScreenOff = false;
+            if (screenState == RemoteTools.SCREEN_STATE_OFF) {
+                isScreenOff = true;
+            }
+            mWedesignNavigationBarView.setScreenState(isScreenOff);
+        }
+    };
+    //********************* 亮屏功能 ****************************
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.wedesign_navigation_bar, container, false);
+        mWedesignNavigationBarView = (WedesignNavigationBarView) inflater.inflate(R.layout.wedesign_navigation_bar, container, false);
+        WedesignNavigationBarView view = mWedesignNavigationBarView;
 
         ImageButton btnNavAirSwitch = (ImageButton) view.findViewById(R.id.btn_nav_air_switch);
         btnNavAirSwitch.setOnClickListener(this);
@@ -83,7 +109,7 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
         ImageButton btnNavPower = (ImageButton) view.findViewById(R.id.btn_nav_power);
         btnNavPower.setOnClickListener(this);
 
-        return view;
+        return mWedesignNavigationBarView;
     }
 
     @java.lang.Override
@@ -151,7 +177,10 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
                 startApp(v.getContext(), "com.txznet.adapter");
                 break;
             case R.id.btn_nav_power:
-//                simulateKeyEvent(KeyEvent.KEYCODE_POWER);
+                simulateKeyEvent(KeyEvent.KEYCODE_POWER);
+                /*if(!isScreenOff) {
+                    RemoteTools.screenOff();
+                }*/
                 break;
         }
     }

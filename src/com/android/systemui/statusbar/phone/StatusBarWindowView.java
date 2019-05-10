@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.InputDevice;
 import android.view.InputQueue;
@@ -62,6 +63,7 @@ import com.android.systemui.statusbar.DragDownHelper;
 import com.android.systemui.statusbar.StatusBarState;
 import com.android.systemui.statusbar.stack.NotificationStackScrollLayout;
 
+import com.wd.airdemo.module.RemoteTools;
 
 public class StatusBarWindowView extends FrameLayout {
     public static final String TAG = "StatusBarWindowView";
@@ -285,12 +287,26 @@ public class StatusBarWindowView extends FrameLayout {
         return super.dispatchTouchEvent(ev);
     }
 
+    // Grace Add. 亮屏功能
+    private boolean isScreenOff;
+
+    public void setScreenState(boolean isScreenOff) {
+        Log.d(TAG, "setScreenState: isScreenOff = " + isScreenOff);
+        this.isScreenOff = isScreenOff;
+    }
+    // Grace End. 亮屏功能
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mService.isDozing() && !mStackScrollLayout.hasPulsingNotifications()) {
             // Capture all touch events in always-on.
             return true;
         }
+        // Grace Add. 亮屏功能
+        if(isScreenOff && ev.getAction() == MotionEvent.ACTION_DOWN) {
+            return true;
+        }
+        // Grace End. 亮屏功能
         boolean intercept = false;
         if (mNotificationPanel.isFullyExpanded()
                 && mStackScrollLayout.getVisibility() == View.VISIBLE
@@ -319,6 +335,13 @@ public class StatusBarWindowView extends FrameLayout {
             mDoubleTapHelper.onTouchEvent(ev);
             handled = true;
         }
+        // Grace Add. 亮屏功能
+        if(isScreenOff && ev.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d(TAG, "onTouchEvent screenOn");
+            RemoteTools.screenOn();
+            return true;
+        }
+        // Grace End. 亮屏功能
         if ((mService.getBarState() == StatusBarState.KEYGUARD && !handled)
                 || mDragDownHelper.isDraggingDown()) {
             // we still want to finish our drag down gesture when locking the screen

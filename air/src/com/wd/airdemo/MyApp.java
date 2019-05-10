@@ -4,8 +4,11 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
 
+import com.wd.ms.ITaskBinder;
 import com.wd.ms.tools.MSTools;
 import com.wd.airdemo.module.AirModule;
+import com.wd.airdemo.module.FinalRemoteModule;
+import com.wd.airdemo.module.RemoteTools;
 
 public class MyApp extends Application {
     @Override
