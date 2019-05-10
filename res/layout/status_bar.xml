@@ -56,7 +56,17 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_user_df"
+            android:text="DF-320"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center_vertical" />
 
         <com.android.keyguard.AlphaOptimizedLinearLayout android:id="@+id/system_icon_area"
             android:layout_width="wrap_content"

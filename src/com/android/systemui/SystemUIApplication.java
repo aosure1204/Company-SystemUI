@@ -58,7 +58,6 @@ import com.android.systemui.util.leak.GarbageMonitor;
 import com.android.systemui.volume.VolumeUI;
 
 import com.wd.ms.tools.MSTools;
-import com.wd.airdemo.MyServer;
 import com.wd.airdemo.module.AirModule;
 
 import java.util.HashMap;
