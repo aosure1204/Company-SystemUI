@@ -44,6 +44,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -322,11 +323,11 @@ public class NotificationPanelView extends PanelView implements
         }
 
         int panelWidth = res.getDimensionPixelSize(R.dimen.notification_panel_width);
-        lp = (FrameLayout.LayoutParams) mNotificationStackScroller.getLayoutParams();
-        if (lp.width != panelWidth || lp.gravity != panelGravity) {
-            lp.width = panelWidth;
-            lp.gravity = panelGravity;
-            mNotificationStackScroller.setLayoutParams(lp);
+        LinearLayout.LayoutParams NotifLp = (LinearLayout.LayoutParams) mNotificationStackScroller.getLayoutParams();
+        if (NotifLp.width != panelWidth || NotifLp.gravity != panelGravity) {
+            NotifLp.width = panelWidth;
+            NotifLp.gravity = panelGravity;
+            mNotificationStackScroller.setLayoutParams(NotifLp);
         }
     }
 
