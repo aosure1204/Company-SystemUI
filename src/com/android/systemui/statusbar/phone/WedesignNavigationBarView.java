@@ -10,7 +10,7 @@ import com.wd.airdemo.module.RemoteTools;
 
 //********************* 亮屏功能 ****************************
 public class WedesignNavigationBarView extends LinearLayout {
-    private static final String TAG = "WDNavigationBar";
+    private static final String TAG = "WDNavigationBarView";
 
     private boolean isScreenOff;
 

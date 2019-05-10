@@ -482,6 +482,11 @@ public class TaskStackLayoutAlgorithm {
         int height = mStackRect.height() - mInitialTopOffset - mStackBottomOffset;
         mTaskRect.set(mStackRect.left, mStackRect.top, mStackRect.right, mStackRect.top + height);
 
+        // Grace add
+        mStackRect.set(132, 200, 1920, 930);
+        mTaskRect.set(132, 200, 1200, 930);
+        // Grace end.
+
         if (mTaskRect.width() <= 0 || mTaskRect.height() <= 0) {
             // Logging for b/36654830
             Log.e(TAG, "Invalid task rect: taskRect=" + mTaskRect + " stackRect=" + mStackRect
@@ -879,15 +884,15 @@ public class TaskStackLayoutAlgorithm {
     }
 
     public TaskViewTransform getStackTransform(Task task, float stackScroll,
-            TaskViewTransform transformOut, TaskViewTransform frontTransform,
-            boolean ignoreTaskOverrides) {
+                                               TaskViewTransform transformOut, TaskViewTransform frontTransform,
+                                               boolean ignoreTaskOverrides) {
         return getStackTransform(task, stackScroll, mFocusState, transformOut, frontTransform,
                 false /* forceUpdate */, ignoreTaskOverrides);
     }
 
     public TaskViewTransform getStackTransform(Task task, float stackScroll, int focusState,
-            TaskViewTransform transformOut, TaskViewTransform frontTransform, boolean forceUpdate,
-            boolean ignoreTaskOverrides) {
+                                               TaskViewTransform transformOut, TaskViewTransform frontTransform, boolean forceUpdate,
+                                               boolean ignoreTaskOverrides) {
         if (mFreeformLayoutAlgorithm.isTransformAvailable(task, this)) {
             mFreeformLayoutAlgorithm.getTransform(task, transformOut, this);
             return transformOut;
@@ -991,12 +996,19 @@ public class TaskStackLayoutAlgorithm {
         float lowerBoundedUnfocusedRangeX = mUnfocusedRange.getNormalizedX(taskProgress);
         float lowerBoundedFocusedRangeX = mFocusedRange.getNormalizedX(taskProgress);
 
-        int x = (mStackRect.width() - mTaskRect.width()) / 2;
-        int y;
+        // Grace modify.
+        /*int x = (mStackRect.width() - mTaskRect.width()) / 2;
+        int y;*/
+        int x;
+        int y = 0;
+        // Grace end.
         float z;
         float dimAlpha;
         float viewOutlineAlpha;
-        if (!ssp.hasFreeformWorkspaceSupport() && mNumStackTasks == 1 && !ignoreSingleTaskCase) {
+        // Grace modify.
+//         if (!ssp.hasFreeformWorkspaceSupport() && mNumStackTasks == 1 && !ignoreSingleTaskCase) {
+        if (false) {
+        // Grace end.
             // When there is exactly one task, then decouple the task from the stack and just move
             // in screen space
             float tmpP = (mMinScrollP - stackScroll) / mNumStackTasks;
@@ -1010,10 +1022,16 @@ public class TaskStackLayoutAlgorithm {
 
         } else {
             // Otherwise, update the task to the stack layout
-            int unfocusedY = (int) ((1f - mUnfocusedCurveInterpolator.getInterpolation(
+            // Grace modify.
+            /*int unfocusedY = (int) ((1f - mUnfocusedCurveInterpolator.getInterpolation(
                     unfocusedRangeX)) * mStackRect.height());
             int focusedY = (int) ((1f - mFocusedCurveInterpolator.getInterpolation(
-                    focusedRangeX)) * mStackRect.height());
+                    focusedRangeX)) * mStackRect.height());*/
+            int unfocusedX = (int) ((1f - mUnfocusedCurveInterpolator.getInterpolation(
+                    unfocusedRangeX)) * mStackRect.width());
+            int focusedX = (int) ((1f - mFocusedCurveInterpolator.getInterpolation(
+                    focusedRangeX)) * mStackRect.width());
+            // Grace end.
             float unfocusedDim = mUnfocusedDimCurveInterpolator.getInterpolation(
                     lowerBoundedUnfocusedRangeX);
             float focusedDim = mFocusedDimCurveInterpolator.getInterpolation(
@@ -1032,8 +1050,12 @@ public class TaskStackLayoutAlgorithm {
                 }
             }
 
-            y = (mStackRect.top - mTaskRect.top) +
-                    (int) Utilities.mapRange(focusState, unfocusedY, focusedY);
+            // Grace modify.
+            /*y = (mStackRect.top - mTaskRect.top) +
+                    (int) Utilities.mapRange(focusState, unfocusedY, focusedY);*/
+            x = (mStackRect.left - mTaskRect.left) +
+                    (int) Utilities.mapRange(focusState, unfocusedX, focusedX);
+            // Grace end.
             z = Utilities.mapRange(Utilities.clamp01(boundedScrollUnfocusedNonOverrideRangeX),
                     mMinTranslationZ, mMaxTranslationZ);
             dimAlpha = Utilities.mapRange(focusState, unfocusedDim, focusedDim);
@@ -1048,10 +1070,18 @@ public class TaskStackLayoutAlgorithm {
         transformOut.dimAlpha = dimAlpha;
         transformOut.viewOutlineAlpha = viewOutlineAlpha;
         transformOut.rect.set(mTaskRect);
+        // Grace modify
         transformOut.rect.offset(x, y);
+//        transformOut.rect.offset(0, 0);
+        // Grace end.
         Utilities.scaleRectAboutCenter(transformOut.rect, transformOut.scale);
-        transformOut.visible = (transformOut.rect.top < mStackRect.bottom) &&
-                (frontTransform == null || transformOut.rect.top != frontTransform.rect.top);
+        // Grace modify
+        /*transformOut.visible = (transformOut.rect.top < mStackRect.bottom) &&
+                (frontTransform == null || transformOut.rect.top != frontTransform.rect.top);*/
+        transformOut.visible = true;
+        /*transformOut.visible = (transformOut.rect.left < mStackRect.right) &&
+                (frontTransform == null || transformOut.rect.left != frontTransform.rect.left);*/
+        // Grace end.
     }
 
     /**

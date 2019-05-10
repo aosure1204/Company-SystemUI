@@ -50,7 +50,7 @@ import com.android.systemui.R;
 
 public class WedesignNavigationBarFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
 
-    public static final String TAG = "NavigationBar";
+    public static final String TAG = "WDNavigationBarFragment";
     private static final boolean DEBUG = false;
 
     private StatusBar mStatusBar;
