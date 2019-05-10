@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.android.internal.util.CharSequences;
+import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+import com.android.systemui.SysUiServiceProvider;
 import com.android.systemui.fragments.FragmentHostManager;
 import android.annotation.Nullable;
 import android.widget.Button;
@@ -36,6 +38,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.systemui.qs.tiles.DataUsageDetailView;
+import com.android.systemui.recents.Recents;
+import com.android.systemui.stackdivider.Divider;
 import com.wd.airdemo.module.DataCarbus;
 import com.wd.airdemo.module.DataUtil;
 import com.wd.airdemo.module.FinalCanbus;
@@ -44,10 +48,14 @@ import com.wd.airdemo.util.IUiNotify;
 
 import com.android.systemui.R;
 
-public class WedesignNavigationBarFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
+public class WedesignNavigationBarFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
 
     public static final String TAG = "NavigationBar";
     private static final boolean DEBUG = false;
+
+    private StatusBar mStatusBar;
+    private Recents mRecents;
+    private Divider mDivider;
 
     private WindowManager mWindowManager;
 
@@ -63,6 +71,9 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mStatusBar = SysUiServiceProvider.getComponent(getContext(), StatusBar.class);
+        mRecents = SysUiServiceProvider.getComponent(getContext(), Recents.class);
+        mDivider = SysUiServiceProvider.getComponent(getContext(), Divider.class);
 
         RemoteTools.setOnScreenStateChangeListener(mOnScreenStateChangeListener);
     }
@@ -98,6 +109,7 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
         mBtnNavAirTemperature.setOnClickListener(this);
         ImageButton btnNavHome = (ImageButton) view.findViewById(R.id.btn_nav_home);
         btnNavHome.setOnClickListener(this);
+        btnNavHome.setOnLongClickListener(this);
         ImageButton btnNavVehicleControl = (ImageButton) view.findViewById(R.id.btn_nav_vehicle_control);
         btnNavVehicleControl.setOnClickListener(this);
         ImageButton btnNavNavigation = (ImageButton) view.findViewById(R.id.btn_nav_navigation);
@@ -110,6 +122,30 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
         btnNavPower.setOnClickListener(this);
 
         return mWedesignNavigationBarView;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        boolean result = false;
+
+        switch (v.getId()) {
+            case R.id.btn_nav_home:
+                onLongPressRecents();
+                result = true;
+                break;
+        }
+
+        return result;
+    }
+
+    private boolean onLongPressRecents() {
+        if (mRecents == null || !ActivityManager.supportsMultiWindow(getContext())
+                || !mDivider.getView().getSnapAlgorithm().isSplitScreenFeasible()) {
+            return false;
+        }
+
+        return mStatusBar.toggleSplitScreenMode(MetricsEvent.ACTION_WINDOW_DOCK_LONGPRESS,
+                MetricsEvent.ACTION_WINDOW_UNDOCK_LONGPRESS);
     }
 
     @java.lang.Override
@@ -629,5 +665,4 @@ public class WedesignNavigationBarFragment extends Fragment implements View.OnCl
         }
         return tempStr;
     }
-
 }
